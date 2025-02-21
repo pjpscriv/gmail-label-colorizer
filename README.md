@@ -20,6 +20,10 @@
   </br></br>
 </p> -->
 
-A small extension for making any-color labels in Gmail.
+A small, simple extension for making any-color labels in Gmail.
 
-Not yet published to the Chrome webstore.
+Modifies the pre-existing "Add custom colour" modal in Gmail to use a simple 
+color picker. Automatically set text to black or white depending on the background.
+
+Currently a very bare-bones v1. If you have any issues or feature requests - 
+post them [here](https://github.com/pjpscriv/gmail-label-colorizer/issues).
