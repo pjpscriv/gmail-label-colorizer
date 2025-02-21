@@ -4,7 +4,8 @@
 <h1 align="center">Gmail Label Colorizer</h1>
 
 <p align="center" style="filter: grayscale(1)">
-  <!-- </br></br> -->
+  <b><i>Awaiting Chrome Webstore review.</i></b>
+  </br></br>
   <a href="#">
     <picture>
       <source srcset="https://i.imgur.com/XBIE9pk.png" media="(prefers-color-scheme: dark)">
