@@ -1,2 +1,5 @@
 # Zip files
 *.zip
+
+# web-ext artifacts
+*/web-ext-artifacts/

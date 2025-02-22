@@ -4,7 +4,7 @@
 <h1 align="center">Gmail Label Colorizer</h1>
 
 <p align="center" style="filter: grayscale(1)">
-  <b><i>Awaiting Chrome Webstore review.</i></b>
+  <b><i>Awaiting Chrome Webstore & addons.mozilla.org review.</i></b>
   </br></br>
   <a href="#">
     <picture>
@@ -12,13 +12,13 @@
       <img height="58" src="https://i.imgur.com/oGxig2F.png" alt="Chrome Web Store">
     </picture>
   </a>
-  <!-- <a href="#">
+  <a href="https://addons.mozilla.org/en-GB/firefox/addon/gmail-label-colorizer/">
     <picture style="filter: grayscale(1)">
       <source srcset="https://i.imgur.com/ZluoP7T.png" media="(prefers-color-scheme: dark)">
       <img height="58" src="https://i.imgur.com/4PobQqE.png" alt="Firefox add-ons">
-    </picture>
-  </a> -->
-  <!-- </br></br> -->
+    </pictue>
+  </a>
+  <!-- </br></brr> -->
 </p>
 
 A small, simple extension for making any-color labels in Gmail.
