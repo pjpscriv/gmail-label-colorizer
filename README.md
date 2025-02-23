@@ -3,20 +3,12 @@
 </p>
 <h1 align="center">Gmail Label Colorizer</h1>
 
-<p align="center" style="filter: grayscale(1)">
-  <b><i>Awaiting Chrome Webstore & addons.mozilla.org review.</i></b>
-  </br></br>
-  <a href="#">
-    <picture>
-      <source srcset="https://i.imgur.com/XBIE9pk.png" media="(prefers-color-scheme: dark)">
-      <img height="58" src="https://i.imgur.com/oGxig2F.png" alt="Chrome Web Store">
-    </picture>
+<p align="center">
+  <a href="https://chromewebstore.google.com/detail/gmail-label-colorizer/pjainmnpfajfihmlgdbhaigmehlmeikm">
+    <img height="58" src="https://github.com/pjpscriv/gmail-label-colorizer/blob/main/docs/links/chrome-webstore.png" alt="Chrome Web Store">
   </a>
   <a href="https://addons.mozilla.org/en-GB/firefox/addon/gmail-label-colorizer/">
-    <picture style="filter: grayscale(1)">
-      <source srcset="https://i.imgur.com/ZluoP7T.png" media="(prefers-color-scheme: dark)">
-      <img height="58" src="https://i.imgur.com/4PobQqE.png" alt="Firefox add-ons">
-    </pictue>
+    <img height="58" src="https://github.com/pjpscriv/gmail-label-colorizer/blob/main/docs/links/firefox-addon-disabled.png" alt="Firefox add-ons">
   </a>
   <!-- </br></brr> -->
 </p>
