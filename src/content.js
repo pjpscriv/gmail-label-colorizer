@@ -17,6 +17,44 @@ function colorIsDark(bgColor) {
   return L <= 186;
 }
 
+Coloris({
+  alpha: false,
+  swatches: [
+
+    // Row 1
+    "#ad1457", // Beetroot
+    "#F4511E", // Tangerine
+    "#e4c441", // Citron
+    "#0b8043", // Basil
+    "#3F51B5", // Blueberry
+    "#8E24AA",  // Grape
+
+    // Row 2
+    "#d81b60", // Cherry Blossom
+    "#ef6c00", // Pumpkin
+    "#C0CA33", // Avocado
+    "#009688", // Ecualyptus
+    "#7986cb", // Lavender
+    "#795548", // Cocoa
+
+    // Row 3
+    "#D50000", // Tomato
+    "#f09300", // Mango
+    "#7cb342", // Pistachio
+    "#039BE5", // Peacock
+    "#b39ddb", // Wisisteria
+    "#616161", // Graphite
+
+    // Row 4
+    "#e67c73", // Flamingo
+    "#F6BF26", // Banana
+    "#33B679", // Sage
+    "#4285f4", // Cobalt
+    "#9E69AF", // Amethyst
+    "#a79b8e", // Birch
+  ]
+})
+
 const tableHeadSelector = (n) => `[data-bg-color] > table > tbody > tr:nth-child(1) > td:nth-child(${n})`;
 const tableColSelector = (n) => `[data-bg-color] > table > tbody > tr:nth-child(2) > td:nth-child(${n})`;
 
@@ -67,9 +105,6 @@ function transformModal(node) {
   const txtRows = Array.from(txtColorCol.querySelectorAll("div > div"));
   txtRows.forEach(r => r.style = "display: flex; justify-content: center;");
   
-  // 3. Hide whole column?
-  // TODO
-  
   
   // --------- Background color ---------
   const bgColorCol = child.querySelector(tableColSelector(1));
@@ -112,29 +147,42 @@ function transformModal(node) {
   bgInner.querySelectorAll("input[type=color]").forEach(n => n.remove());
   
   // 3.2 Add color input to node
+  const clrNode = document.createElement("div");
+  clrNode.classList.add("clr-field");
+
+  const clrBtn = document.createElement("button");
+  clrBtn.classList.add("clr-open-label");
+
   const colorInput = document.createElement("input");
-  colorInput.type = "color";
-  colorInput.style = "width: 100%; height: 2em;";
+  colorInput.type = "text";
+  colorInput.classList.add("input100");
+  colorInput.classList.add("underline-color");
+  colorInput.setAttribute("data-coloris", "");
   colorInput.value = bgInner.style.backgroundColor;
+  colorInput.style = "width: 100%; height: 2em; border-width: 0;";
   colorInput.addEventListener("input", () => {
     // Label color
     bgSelected.node.ariaLabel = colorInput.value;
     bgTickNode.style.backgroundColor = colorInput.value;
     labelNode.style.backgroundColor = colorInput.value;
+    clrNode.style.color = colorInput.value;
 
     // Text color
     const txtColor = colorIsDark(colorInput.value) ? "#ffffff" : "#000000";
     txtTickNode.style.backgroundColor = txtColor;
     labelTxtNode.style.color = txtColor;
   });
-  tbody.appendChild(colorInput);
+
+  clrNode.appendChild(clrBtn);
+  clrNode.appendChild(colorInput);
+  tbody.appendChild(clrNode);
   
   // 3.3 Set first color = hot pink
   // colorInput.value = "#ff69b4";
   colorInput.value = "#999999";
   colorInput.dispatchEvent(new Event("input"));
 
-  // 4. Hide whole column?
+  // 4. Hide whole column
   // 4.1 Hide headers
   for (let i = 1; i <= 3; i++) {
     const header = child.querySelector(tableHeadSelector(i));
