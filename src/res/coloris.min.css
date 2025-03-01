@@ -7,7 +7,6 @@
 	border-radius: 10px;
 	background-color: #fff;
 	justify-content: space-between;
-	box-shadow: 0 0 5px rgba(0, 0, 0, .05), 0 5px 20px rgba(0, 0, 0, .1);
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	user-select: none
@@ -215,7 +214,6 @@
 	top: 0;
 	border-radius: inherit;
 	background-color: currentColor;
-	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1)
 }
 
 input.clr-color {
@@ -281,7 +279,6 @@ input.clr-color:focus {
 .clr-preview:after {
 	border: 0;
 	background-color: currentColor;
-	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1)
 }
 
 .clr-alpha div,
@@ -323,7 +320,6 @@ input.clr-color:focus {
 	top: 0;
 	border-radius: inherit;
 	background-color: currentColor;
-	box-shadow: inset 0 0 1px rgba(0, 0, 0, .5)
 }
 
 .clr-alpha,
@@ -372,10 +368,6 @@ input.clr-color:focus {
 	border-color: #777
 }
 
-.clr-dark .clr-swatches button:after {
-	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .3)
-}
-
 .clr-dark input.clr-color {
 	color: #fff;
 	border-color: #777;
@@ -384,10 +376,6 @@ input.clr-color:focus {
 
 .clr-dark input.clr-color:focus {
 	border-color: #1e90ff
-}
-
-.clr-dark .clr-preview:after {
-	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .5)
 }
 
 .clr-dark .clr-alpha,
