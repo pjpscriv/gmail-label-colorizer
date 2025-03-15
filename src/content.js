@@ -95,6 +95,7 @@ function transformModal(node) {
   // 1. Get selected box
   const txtTickNode = txtSelected?.node?.querySelector("div");
   const labelTxtNode = child.querySelector("div [title][style] div div");
+
   /*
   console.log("Important TXT nodes:");
   console.log(txtTickNode);
@@ -128,6 +129,11 @@ function transformModal(node) {
   // 1. Get selected box
   const bgTickNode = bgSelected.node.querySelector("div");
   const labelNode = child.querySelector("div [title][style]");
+
+  const initialColor = labelNode.style.backgroundColor;
+  console.log(initialColor);
+
+
   /*
   console.log("Important BG nodes:")
   console.log(bgSelected.node);
@@ -179,8 +185,8 @@ function transformModal(node) {
   
   // 3.3 Set first color = hot pink
   // colorInput.value = "#ff69b4";
-  colorInput.value = "#999999";
-  colorInput.dispatchEvent(new Event("input"));
+  // colorInput.value = initialColor;
+  // colorInput.dispatchEvent(new Event("input"));
 
   // 4. Hide whole column
   // 4.1 Hide headers

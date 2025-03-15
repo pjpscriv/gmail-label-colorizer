@@ -24,3 +24,18 @@ color picker. Automatically sets text to black or white depending on the backgro
 
 Currently a very bare-bones v1. If you have any issues or feature requests - 
 post them [here](https://github.com/pjpscriv/gmail-label-colorizer/issues).
+
+## Developement
+
+Launch the extension using Mozilla's web-ext
+
+```sh
+web-ext run --target chrome --source-dir ./src/
+```
+
+
+### Package
+
+```sh
+web-ext build --source-dir ./src/ --artifacts-dir=./builds
+```
