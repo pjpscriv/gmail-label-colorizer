@@ -17,6 +17,12 @@ function colorIsDark(bgColor) {
   return L <= 186;
 }
 
+function rgbStringToHex(rgbStr) {
+  const rgb = rgbStr.slice(4, -1).split(', ').map(x => parseInt(x));
+  const rgbHex = rgb.map(x => { const hex = x.toString(16); return hex.length === 1 ? '0' + hex : hex; }).join('');
+  return '#' + rgbHex;
+}
+
 Coloris({
   alpha: false,
   swatches: [
@@ -130,8 +136,9 @@ function transformModal(node) {
   const bgTickNode = bgSelected.node.querySelector("div");
   const labelNode = child.querySelector("div [title][style]");
 
-  const initialColor = labelNode.style.backgroundColor;
-  console.log(initialColor);
+  // Making an assuption of where the last menu option showed up
+  const initialColor = document.querySelector("[role=menu] > [role=menuitem] > div > span > span").style.getPropertyValue("background-color")
+  const initialColorHex = initialColor.startsWith("rgb(") ? rgbStringToHex(initialColor) : initialColor;
 
 
   /*
@@ -183,10 +190,9 @@ function transformModal(node) {
   clrNode.appendChild(colorInput);
   tbody.appendChild(clrNode);
   
-  // 3.3 Set first color = hot pink
-  // colorInput.value = "#ff69b4";
-  // colorInput.value = initialColor;
-  // colorInput.dispatchEvent(new Event("input"));
+  // 3.3 Set initial color
+  colorInput.value = initialColorHex;
+  colorInput.dispatchEvent(new Event("input"));
 
   // 4. Hide whole column
   // 4.1 Hide headers

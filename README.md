@@ -30,12 +30,12 @@ post them [here](https://github.com/pjpscriv/gmail-label-colorizer/issues).
 Launch the extension using Mozilla's web-ext
 
 ```sh
-web-ext run --target chrome --source-dir ./src/
+web-ext run --target chromium --source-dir ./src/
 ```
 
 
 ### Package
 
 ```sh
-web-ext build --source-dir ./src/ --artifacts-dir=./builds
+web-ext build --source-dir ./src/ --artifacts-dir=./dist
 ```
