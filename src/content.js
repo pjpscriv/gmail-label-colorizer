@@ -4,12 +4,9 @@
 const LOG_PREFIX = "[GMAIL-LABEL-COLORIZER-EXTN]";
 const MODAL_ATTR = "data-inject-content-controller";
 const MODAL_CONTENT_QUERY = "div:not([jsaction]) > div [data-bg-color]";
-const TABLE_QUERY = "[data-bg-color] > table";
 const TBODY_QUERY = "[data-bg-color] > table > tbody";
 const CURRENT_LABEL_QUERY = "[role=menu] > [role=menuitem] > div > span > span";
 const FIRST_OPEN_DELAY = 50;
-
-const EXTN_ENABLED = true;
 
 
 
@@ -102,7 +99,6 @@ function transformModal(node) {
     return;
 
   // Get elements
-  // const table = modalContent.querySelector(TABLE_QUERY);
   const tbody = modalContent.querySelector(TBODY_QUERY);
   const currentColorEl = document.querySelector(CURRENT_LABEL_QUERY);
 
@@ -110,8 +106,7 @@ function transformModal(node) {
   const spacerCol = modalContent.querySelector(tableColSelector(2));
   const txtColorCol = modalContent.querySelector(tableColSelector(3));
 
-
-  // --------------- "Auto-set text color" checkbox ---------------
+  // ----- "Auto-set text color" checkbox -----
   const checkboxLabelEl = document.createElement("label");
   const checkboxInputEl = document.createElement("input");
   const checkboxSpanEl = document.createElement("span");
@@ -120,10 +115,8 @@ function transformModal(node) {
   checkboxInputEl.checked = false;
   // TODO: Find a way to change this by language
   checkboxSpanEl.textContent = "Auto-set text color";
-  
   checkboxLabelEl.appendChild(checkboxInputEl);
   checkboxLabelEl.appendChild(checkboxSpanEl);
-
 
   // --------------- Text color ---------------
   // 0. Get text color cells
@@ -136,146 +129,89 @@ function transformModal(node) {
       return;
   }
 
-  // 1. Group text cells by class
+  // 1. Get relevant elements and colors
   const txtCells = getCellsBySelected(txtCellList)
-  
-  // 2. Get selected box
   const txtTickNode = txtCells?.selected?.node?.querySelector("div");
+  const txtLabelNode = modalContent.querySelector("div [title][style] div div");
+  const txtInitialColor = currentColorEl.style.getPropertyValue("color");
+  const txtInitialColorHex = txtInitialColor.startsWith("rgb(") ? rgbStringToHex(txtInitialColor) : txtInitialColor;
   
-  // 3. Delete all other boxes
+  // 2. Delete all other boxes
   txtCells?.unselected?.nodes?.forEach(n => n.remove());
 
-  // 4. Center the remaining box
-  // TODO: This might not be needed
-  const txtRows = Array.from(txtColorCol.querySelectorAll("div > div"));
-  txtRows.forEach(r => r.style = "display: flex; justify-content: center;");
-
-  // 5. Get node that displays the text color
-  const labelTxtNode = modalContent.querySelector("div [title][style] div div");
-
-  // 6. Get current label text color
-  const initialTxtColor = currentColorEl.style.getPropertyValue("color");
-  const initialTxtColorHex = initialTxtColor.startsWith("rgb(") ? rgbStringToHex(initialTxtColor) : initialTxtColor;
-
-  // 7. Create new text color selector
-  const txtInner = txtColorCol.querySelector("div");
-
-  // 7.1 Remove previous color inputs
-  txtInner.querySelectorAll("input[type=color]").forEach(n => n.remove());
-
-  // 7.2 Add color input to node
+  // 3. Create new text color selector
   const txtClrNode = document.createElement("div");
   const txtClrBtn = document.createElement("button");
   const txtColorInput = document.createElement("input");
   const txtColorChangeListener = () => {
-    // Text color
     txtCells.selected.node.ariaLabel = txtColorInput.value;
     txtTickNode.style.backgroundColor = txtColorInput.value;
-    labelTxtNode.style.color = txtColorInput.value;
+    txtLabelNode.style.color = txtColorInput.value;
     txtClrNode.style.color = txtColorInput.value;
   }
-  setupColorInput(txtClrNode, txtClrBtn, txtColorInput, txtColorChangeListener, initialTxtColorHex);
-
-
+  setupColorInput(txtClrNode, txtClrBtn, txtColorInput, txtColorChangeListener, txtInitialColorHex);
   
-  // --------------- Background color ---------------
+  // ------------ Background color ------------
   // 0. Get background color cells
   const bgCellList = Array.from(bgColorCol.querySelectorAll("td"));
 
-  // 1. Group background color cells by class
+  // 1. Get relevant elements and colors
   const bgCells = getCellsBySelected(bgCellList);
-  
-  // 2. Get selected box
   const bgTickNode = bgCells.selected.node.querySelector("div");
+  const bgLabelNode = modalContent.querySelector("div [title][style]");
+  const bgInitialColor = currentColorEl.style.getPropertyValue("background-color");
+  const bgInitialColorHex = bgInitialColor.startsWith("rgb(") ? rgbStringToHex(bgInitialColor) : bgInitialColor;
 
-  // 3. Delete all other boxes
+  // 2. Delete all other boxes
   bgCells.unselected?.nodes?.forEach(n => n.remove());
 
-  // 4. Center the remaining box
-  // TODO: Is this really necessary?
-  const bgRows = Array.from(bgColorCol.querySelectorAll("div > div"));
-  bgRows.forEach(r => r.style = "display: flex; justify-content: center;");
-
-  // 5. Get node that displays the background color
-  const labelNode = modalContent.querySelector("div [title][style]");
-
-  // 6. Get current label background color
-  const initialBgColor = currentColorEl.style.getPropertyValue("background-color");
-  const initialBgColorHex = initialBgColor.startsWith("rgb(") ? rgbStringToHex(initialBgColor) : initialBgColor;
-
-  // 7. Create new background color selector
-  const bgInner = bgColorCol.querySelector("div");
-  
-  // 7.1 Remove previous color inputs
-  bgInner.querySelectorAll("input[type=color]").forEach(n => n.remove());
-  
-  // 7.2 Add color input to node
+  // 3. Create new background color selector
   const bgClrNode = document.createElement("div");
   const bgClrBtn = document.createElement("button");
   const bgColorInput = document.createElement("input");
   const bgColorChangeListener = () => {
-    // Label color
     bgCells.selected.node.ariaLabel = bgColorInput.value;
     bgTickNode.style.backgroundColor = bgColorInput.value;
-    labelNode.style.backgroundColor = bgColorInput.value;
+    bgLabelNode.style.backgroundColor = bgColorInput.value;
     bgClrNode.style.color = bgColorInput.value;
-
-    // Text color
     if (checkboxInputEl.checked) {
       const txtColor = colorIsDark(bgColorInput.value) ? "#ffffff" : "#000000";
       txtColorInput.value = txtColor;
       txtColorInput.dispatchEvent(new Event("input"));
     }
   }
-  setupColorInput(bgClrNode, bgClrBtn, bgColorInput, bgColorChangeListener, initialBgColorHex);
+  setupColorInput(bgClrNode, bgClrBtn, bgColorInput, bgColorChangeListener, bgInitialColorHex);
 
-
-
-
-
-
-  // --------------- Hide old UI ---------------
-  // 0. Hide headers
-  // for (let i = 1; i <= 3; i++) {
-  //   const header = modalContent.querySelector(tableHeadSelector(i));
-  //   header.style.display = "none";
-  // }
-
-  // 1. Hide spacer & text color column
+  // ------------- Make UI Changes ------------
+  // 1. Hide previous color inputs
   bgColorCol.style.display = "none";
   spacerCol.style.display = "none";
   txtColorCol.style.display = "none";
 
   // 2. Add new color picker row
-  const newRowNode = document.createElement("tr");
+  const newRow1Node = document.createElement("tr");
   const colNode1 = document.createElement("td");
   const colNode2 = document.createElement("td");
   const colNode3 = document.createElement("td");
   colNode1.style = "padding-top: 12px;";
-  newRowNode.appendChild(colNode1);
-  newRowNode.appendChild(colNode2);
-  newRowNode.appendChild(colNode3);
-
+  newRow1Node.appendChild(colNode1);
+  newRow1Node.appendChild(colNode2);
+  newRow1Node.appendChild(colNode3);
   colNode1.appendChild(bgClrNode);
   colNode3.appendChild(txtClrNode);
-  tbody.appendChild(newRowNode);
+  tbody.appendChild(newRow1Node);
 
   // 3. Add text color checkbox & enable
-  const newRowNode2 = document.createElement("tr");
+  const newRow2Node = document.createElement("tr");
   const checkboxColNode = document.createElement("td");
   checkboxColNode.colSpan = 3;
   checkboxColNode.style = "padding-top: 24px; text-align: center;";
-  newRowNode2.appendChild(checkboxColNode);
-  
-  // checkboxInputEl.checked = true;
+  newRow2Node.appendChild(checkboxColNode);
   checkboxColNode.appendChild(checkboxLabelEl);
-  tbody.appendChild(newRowNode2);
+  tbody.appendChild(newRow2Node);
 
-
-  // 4. Fix up alignment
-  // table.style = "display: flex; justify-content: center; padding: 1em;";
-  // tbody.style = "display: table; width: 33%;";
-  // tbody.style = "display: table;";
+  // 4. Fix up UI spacing
+  modalContent.parentElement.style.paddingBottom = "8px";
 }
 
 
@@ -291,11 +227,8 @@ function mutationHandler(mutations) {
       if (!node.hasAttribute(MODAL_ATTR) || node.getAttribute(MODAL_ATTR) !== "true")
         return;
 
-      // Transform the modal (if config is enabled)
-      if (EXTN_ENABLED)
-        transformModal(node);
-      else
-        console.log(LOG_PREFIX, "Extension is disabled, not transforming modal");
+      // Transform the modal
+      transformModal(node);
     });
   });
 }

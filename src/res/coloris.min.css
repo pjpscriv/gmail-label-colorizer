@@ -307,7 +307,10 @@ input.clr-color:focus {
 	text-indent: -1000px;
 	white-space: nowrap;
 	overflow: hidden;
-	pointer-events: none
+	pointer-events: none;
+
+	/* Custom */
+	border: 2px solid #444;
 }
 
 .clr-field button:after {
