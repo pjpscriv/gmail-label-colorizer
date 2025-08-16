@@ -14,7 +14,6 @@
       <img src="https://img.shields.io/amo/users/gmail-label-colorizer?style=flat-square&logo=firefox&logoColor=white&label=Firefox%20users&color=%23FF7139" alt="Firefox add-ons">
     </a>
   </picture>
-  <!-- </br></brr> -->
 </p>
 
 A simple extension for making any-color labels in Gmail. 
@@ -29,12 +28,13 @@ Post any issues or feature requests [here](https://github.com/pjpscriv/gmail-lab
 Launch the extension using Mozilla's web-ext
 
 ```sh
-web-ext run --target chromium --source-dir ./src/
+npm run test:firefox
+npm run test:chrome
 ```
 
 
 ### Package
 
 ```sh
-web-ext build --source-dir ./src/ --artifacts-dir=./dist
+npm run package
 ```

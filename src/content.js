@@ -1,13 +1,18 @@
-// More Gmail Label Colors Script
-// Constants
-const LOG_PREFIX = "[MORE GMAIL LABEL COLORS]";
-const ATTR_NAME = "data-inject-content-controller";
-const CHILD_QUERY = "div:not([jsaction]) > div [data-bg-color]";
-const TABLE_QUERY = "[data-bg-color] > table";
-const TBODY_QUERY = "[data-bg-color] > table > tbody";
+// Gmail Label Colorizer Script
 
-// Functions
-// https://stackoverflow.com/a/41491220/13762264
+// ------------------------------- CONSTANTS -------------------------------- //
+const LOG_PREFIX = "[GMAIL-LABEL-COLORIZER-EXTN]";
+const MODAL_ATTR = "data-inject-content-controller";
+const MODAL_CONTENT_QUERY = "div:not([jsaction]) > div [data-bg-color]";
+const TBODY_QUERY = "[data-bg-color] > table > tbody";
+const CURRENT_LABEL_QUERY = "[role=menu] > [role=menuitem] > div > span > span";
+const FIRST_OPEN_DELAY = 50;
+
+// Variable
+let checkboxValue = false; // Default value for the "Auto-set text color" checkbox
+
+// ---------------------------- HELPER FUNCTIONS ---------------------------- //
+/* Determine if a color is dark or light. From: https://stackoverflow.com/a/41491220/13762264 */
 function colorIsDark(bgColor) {
   let color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
   let r = parseInt(color.substring(0, 2), 16); // hexToR
@@ -17,218 +22,227 @@ function colorIsDark(bgColor) {
   return L <= 186;
 }
 
+/* Convert "rgb(r, g, b)" to "#rrggbb" */
 function rgbStringToHex(rgbStr) {
   const rgb = rgbStr.slice(4, -1).split(', ').map(x => parseInt(x));
   const rgbHex = rgb.map(x => { const hex = x.toString(16); return hex.length === 1 ? '0' + hex : hex; }).join('');
   return '#' + rgbHex;
 }
 
-Coloris({
-  alpha: false,
-  swatches: [
+/* Given a list of table cells, split them into the selected cell and the rest */
+function getCellsBySelected(cells) {
+  // Group cells by class
+  const cellMap = cells.reduce((acc, node) => {
+    const className = node.className;
+    acc[className] = acc[className] ? [...acc[className], node] : [node];
+    return acc;
+  }, {});
+  
+  // The selected cell will be the only one with a unique class
+  const selected = Object.keys(cellMap)
+    .map(k => cellMap[k].length === 1 ? { class: k, node: cellMap[k][0] } : null)
+    .filter(x => x !== null)[0];
 
-    // Row 1
-    "#ad1457", // Beetroot
-    "#F4511E", // Tangerine
-    "#e4c441", // Citron
-    "#0b8043", // Basil
-    "#3F51B5", // Blueberry
-    "#8E24AA",  // Grape
+  // All other (unselected) cells have the same class
+  const unselected = Object.keys(cellMap)
+    .map(k => cellMap[k].length > 1 ? { class: k, nodes: cellMap[k] } : null )
+    .filter(x => x !== null)[0];
 
-    // Row 2
-    "#d81b60", // Cherry Blossom
-    "#ef6c00", // Pumpkin
-    "#C0CA33", // Avocado
-    "#009688", // Ecualyptus
-    "#7986cb", // Lavender
-    "#795548", // Cocoa
+  return { selected, unselected };
+}
 
-    // Row 3
-    "#D50000", // Tomato
-    "#f09300", // Mango
-    "#7cb342", // Pistachio
-    "#039BE5", // Peacock
-    "#b39ddb", // Wisisteria
-    "#616161", // Graphite
+/* Setup Coloris input with desired settings and callback for input changes */
+function setupColorInput(parentEl, buttonEl, inputEl, callback, initColor) {
+  parentEl.classList.add("clr-field");
+  buttonEl.classList.add("clr-open-label");
 
-    // Row 4
-    "#e67c73", // Flamingo
-    "#F6BF26", // Banana
-    "#33B679", // Sage
-    "#4285f4", // Cobalt
-    "#9E69AF", // Amethyst
-    "#a79b8e", // Birch
-  ]
-})
+  inputEl.type = "text";
+  inputEl.classList.add("input100");
+  inputEl.classList.add("underline-color");
+  inputEl.setAttribute("data-coloris", "");
+  inputEl.style = "width: 100%; height: 2em; border-width: 0;";
+  inputEl.addEventListener("input", callback);
 
+  parentEl.appendChild(buttonEl);
+  parentEl.appendChild(inputEl);
+
+  // Set initial color
+  inputEl.value = initColor;
+  inputEl.dispatchEvent(new Event("input"));
+}
+
+/* Selectors for table headers and columns */
 const tableHeadSelector = (n) => `[data-bg-color] > table > tbody > tr:nth-child(1) > td:nth-child(${n})`;
 const tableColSelector = (n) => `[data-bg-color] > table > tbody > tr:nth-child(2) > td:nth-child(${n})`;
 
+/* Coloris initialization. Assumes prescence of Coloris JS & CSS. */
+Coloris({
+  alpha: false,
+  swatches: [
+    // Row 1 - Beetroot, Tangerine, Citron, Basil, Blueberry, Grape
+    "#AD1457", "#F4511E", "#E4C441", "#0B8043", "#3F51B5", "#8E24AA", 
+    // Row 2 - Cherry Blossom, Pumpkin, Avocado, Ecualyptus, Lavender, Cocoa
+    "#D81B60", "#EF6C00", "#C0CA33", "#009688", "#7986CB", "#795548", 
+    // Row 3 - Tomato, Mango, Pistachio, Peacock, Wisisteria, Graphite
+    "#D50000", "#F09300", "#7CB342", "#039BE5", "#B39DDB", "#616161", 
+    // Row 4 - Flamingo, Banana, Sage, Cobalt, Amethyst, Birch
+    "#E67C73", "#F6BF26", "#33B679", "#4285F4", "#9E69AF", "#A79B8E", 
+  ]
+})
 
+
+
+// --------------------------- MAIN FUNCTIONALITY --------------------------- //
+/* Transform the modal to add color picker and remove unneeded options */
 function transformModal(node) {
-  const child = node.querySelector(CHILD_QUERY);
-  if (!child)
+  const modalContent = node.querySelector(MODAL_CONTENT_QUERY);
+  if (!modalContent)
     return;
 
-  const table = child.querySelector(TABLE_QUERY);
-  const tbody = child.querySelector(TBODY_QUERY);
+  // Get elements
+  const tbody = modalContent.querySelector(TBODY_QUERY);
+  const currentColorEl = document.querySelector(CURRENT_LABEL_QUERY);
 
-  // --------- Text color ---------
-  const txtColorCol = child.querySelector(tableColSelector(3));
+  const bgColorCol = modalContent.querySelector(tableColSelector(1));
+  const spacerCol = modalContent.querySelector(tableColSelector(2));
+  const txtColorCol = modalContent.querySelector(tableColSelector(3));
+
+  // ----- "Auto-set text color" checkbox -----
+  const checkboxLabelEl = document.createElement("label");
+  const checkboxInputEl = document.createElement("input");
+  const checkboxSpanEl = document.createElement("span");
+  checkboxLabelEl.classList.add("pure-material-checkbox");
+  checkboxInputEl.type = "checkbox";
+  checkboxInputEl.checked = false;
+  checkboxInputEl.addEventListener("change", (e) => { checkboxValue = !!e.target.checked; });
+  // TODO: Find a way to change this by language
+  checkboxSpanEl.textContent = "Auto-set text color";
+  checkboxLabelEl.appendChild(checkboxInputEl);
+  checkboxLabelEl.appendChild(checkboxSpanEl);
+
+  // --------------- Text color ---------------
+  // 0. Get text color cells
+  const txtCellList = Array.from(txtColorCol.querySelectorAll("td"));
   
-  // 0. Get highlight config
-  const txtCells = Array.from(txtColorCol.querySelectorAll("td"));
-  if (txtCells.length === 0) {
-      const delay = 500; 
-      console.log(LOG_PREFIX, `No text cells found. This usually happens the first time the modal is opened. Retrying in ${delay}ms`);
-      setTimeout(() => transformModal(node), delay);
+  // 0.5 Check cells exist, if not, retry after a delay
+  if (txtCellList.length === 0) {
+      console.log(LOG_PREFIX, `No text cells found. This usually happens the first time the modal is opened. Retrying in ${FIRST_OPEN_DELAY}ms`);
+      setTimeout(() => transformModal(node), FIRST_OPEN_DELAY);
       return;
   }
-  const txtCellMap = txtCells.reduce((acc, n) => {
-      if (acc[n.classList] === undefined) {
-          acc[n.classList] = [];
-      }
-      acc[n.classList].push(n);
-      return acc;
-  }, {});
-  const txtUnselected = Object.keys(txtCellMap)
-      .map(k => txtCellMap[k].length > 1 ? { class: k, nodes: txtCellMap[k] } : null )
-      .filter(x => x !== null)[0];
-  const txtSelected = Object.keys(txtCellMap)
-      .map(k => txtCellMap[k].length === 1 ? { class: k, node: txtCellMap[k][0] } : null)
-      .filter(x => x !== null)[0];
-  
-  // 1. Get selected box
-  const txtTickNode = txtSelected?.node?.querySelector("div");
-  const labelTxtNode = child.querySelector("div [title][style] div div");
 
-  /*
-  console.log("Important TXT nodes:");
-  console.log(txtTickNode);
-  /* */
+  // 1. Get relevant elements and colors
+  const txtCells = getCellsBySelected(txtCellList)
+  const txtTickNode = txtCells?.selected?.node?.querySelector("div");
+  const txtLabelNode = modalContent.querySelector("div [title][style] div div");
+  const txtInitialColor = currentColorEl.style.getPropertyValue("color");
+  const txtInitialColorHex = txtInitialColor.startsWith("rgb(") ? rgbStringToHex(txtInitialColor) : txtInitialColor;
   
   // 2. Delete all other boxes
-  txtUnselected?.nodes?.forEach(n => n.remove());
-  const txtRows = Array.from(txtColorCol.querySelectorAll("div > div"));
-  txtRows.forEach(r => r.style = "display: flex; justify-content: center;");
-  
-  
-  // --------- Background color ---------
-  const bgColorCol = child.querySelector(tableColSelector(1));
-  
-  // 0. Get highlight config
-  const bgCells = Array.from(bgColorCol.querySelectorAll("td"));
-  const bgCellMap = bgCells.reduce((acc, n) => {
-      if (acc[n.classList] === undefined) {
-          acc[n.classList] = [];
-      }
-      acc[n.classList].push(n);
-      return acc;
-  }, {});
-  const bgUnselected = Object.keys(bgCellMap)
-      .map(k => bgCellMap[k].length > 1 ? { class: k, nodes: bgCellMap[k] } : null )
-      .filter(x => x !== null)[0];
-  const bgSelected = Object.keys(bgCellMap)
-      .map(k => bgCellMap[k].length === 1 ? { class: k, node: bgCellMap[k][0] } : null)
-      .filter(x => x !== null)[0];
-  
-  // 1. Get selected box
-  const bgTickNode = bgSelected.node.querySelector("div");
-  const labelNode = child.querySelector("div [title][style]");
+  txtCells?.unselected?.nodes?.forEach(n => n.remove());
 
-  // Making an assuption of where the last menu option showed up
-  const initialColor = document.querySelector("[role=menu] > [role=menuitem] > div > span > span").style.getPropertyValue("background-color")
-  const initialColorHex = initialColor.startsWith("rgb(") ? rgbStringToHex(initialColor) : initialColor;
-
-
-  /*
-  console.log("Important BG nodes:")
-  console.log(bgSelected.node);
-  console.log(bgTickNode);
-  console.log(labelNode);
-  /* */
-  
-  // 2. Delete all other boxes
-  bgUnselected?.nodes?.forEach(n => n.remove());
-  const bgRows = Array.from(bgColorCol.querySelectorAll("div > div"));
-  bgRows.forEach(r => r.style = "display: flex; justify-content: center;");
-  
-  // 3. Add in color querySelector
-  const bgInner = bgColorCol.querySelector("div");
-  
-  // 3.1 Remove previous color inputs
-  bgInner.querySelectorAll("input[type=color]").forEach(n => n.remove());
-  
-  // 3.2 Add color input to node
-  const clrNode = document.createElement("div");
-  clrNode.classList.add("clr-field");
-
-  const clrBtn = document.createElement("button");
-  clrBtn.classList.add("clr-open-label");
-
-  const colorInput = document.createElement("input");
-  colorInput.type = "text";
-  colorInput.classList.add("input100");
-  colorInput.classList.add("underline-color");
-  colorInput.setAttribute("data-coloris", "");
-  colorInput.value = bgInner.style.backgroundColor;
-  colorInput.style = "width: 100%; height: 2em; border-width: 0;";
-  colorInput.addEventListener("input", () => {
-    // Label color
-    bgSelected.node.ariaLabel = colorInput.value;
-    bgTickNode.style.backgroundColor = colorInput.value;
-    labelNode.style.backgroundColor = colorInput.value;
-    clrNode.style.color = colorInput.value;
-
-    // Text color
-    const txtColor = colorIsDark(colorInput.value) ? "#ffffff" : "#000000";
-    txtTickNode.style.backgroundColor = txtColor;
-    labelTxtNode.style.color = txtColor;
-  });
-
-  clrNode.appendChild(clrBtn);
-  clrNode.appendChild(colorInput);
-  tbody.appendChild(clrNode);
-  
-  // 3.3 Set initial color
-  colorInput.value = initialColorHex;
-  colorInput.dispatchEvent(new Event("input"));
-
-  // 4. Hide whole column
-  // 4.1 Hide headers
-  for (let i = 1; i <= 3; i++) {
-    const header = child.querySelector(tableHeadSelector(i));
-    header.style.display = "none";
+  // 3. Create new text color selector
+  const txtClrNode = document.createElement("div");
+  const txtClrBtn = document.createElement("button");
+  const txtColorInput = document.createElement("input");
+  const txtColorChangeListener = () => {
+    txtCells.selected.node.ariaLabel = txtColorInput.value;
+    txtTickNode.style.backgroundColor = txtColorInput.value;
+    txtLabelNode.style.color = txtColorInput.value;
+    txtClrNode.style.color = txtColorInput.value;
   }
+  setupColorInput(txtClrNode, txtClrBtn, txtColorInput, txtColorChangeListener, txtInitialColorHex);
+  
+  // ------------ Background color ------------
+  // 0. Get background color cells
+  const bgCellList = Array.from(bgColorCol.querySelectorAll("td"));
 
-  // 4.2 Hide spacer & text color column
+  // 1. Get relevant elements and colors
+  const bgCells = getCellsBySelected(bgCellList);
+  const bgTickNode = bgCells.selected.node.querySelector("div");
+  const bgLabelNode = modalContent.querySelector("div [title][style]");
+  const bgInitialColor = currentColorEl.style.getPropertyValue("background-color");
+  const bgInitialColorHex = bgInitialColor.startsWith("rgb(") ? rgbStringToHex(bgInitialColor) : bgInitialColor;
+
+  // 2. Delete all other boxes
+  bgCells.unselected?.nodes?.forEach(n => n.remove());
+
+  // 3. Create new background color selector
+  const bgClrNode = document.createElement("div");
+  const bgClrBtn = document.createElement("button");
+  const bgColorInput = document.createElement("input");
+  const bgColorChangeListener = () => {
+    bgCells.selected.node.ariaLabel = bgColorInput.value;
+    bgTickNode.style.backgroundColor = bgColorInput.value;
+    bgLabelNode.style.backgroundColor = bgColorInput.value;
+    bgClrNode.style.color = bgColorInput.value;
+    if (checkboxInputEl.checked) {
+      const txtColor = colorIsDark(bgColorInput.value) ? "#ffffff" : "#000000";
+      txtColorInput.value = txtColor;
+      txtColorInput.dispatchEvent(new Event("input"));
+    }
+  }
+  setupColorInput(bgClrNode, bgClrBtn, bgColorInput, bgColorChangeListener, bgInitialColorHex);
+
+  // ------------- Make UI Changes ------------
+  // 1. Hide previous color inputs
   bgColorCol.style.display = "none";
-  const spacerCol = child.querySelector(tableColSelector(2));
   spacerCol.style.display = "none";
   txtColorCol.style.display = "none";
 
-  // 4.3 Fix up alignment
-  table.style = "display: flex; justify-content: center; padding: 1em;";
-  tbody.style = "display: table; width: 33%;";
+  // 2. Add new color picker row
+  const newRow1Node = document.createElement("tr");
+  const colNode1 = document.createElement("td");
+  const colNode2 = document.createElement("td");
+  const colNode3 = document.createElement("td");
+  colNode1.style = "padding-top: 12px;";
+  newRow1Node.appendChild(colNode1);
+  newRow1Node.appendChild(colNode2);
+  newRow1Node.appendChild(colNode3);
+  colNode1.appendChild(bgClrNode);
+  colNode3.appendChild(txtClrNode);
+  tbody.appendChild(newRow1Node);
 
+  // 3. Add text color checkbox & enable
+  checkboxInputEl.checked = checkboxValue;
+  const newRow2Node = document.createElement("tr");
+  const checkboxColNode = document.createElement("td");
+  checkboxColNode.colSpan = 3;
+  checkboxColNode.style = "padding-top: 24px; text-align: center;";
+  
+  newRow2Node.appendChild(checkboxColNode);
+  checkboxColNode.appendChild(checkboxLabelEl);
+  tbody.appendChild(newRow2Node);
+
+  // 4. Fix up UI spacing
+  modalContent.parentElement.style.paddingBottom = "8px";
 }
 
 
+/* Listen and react to document mutations, i.e. apply modal transformations if appropriate */
 function mutationHandler(mutations) {
   mutations.forEach((m) => {
     m.addedNodes.forEach((node) => {
+      // Ignore non-elements
       if (node.nodeType !== 1)
         return;
-      if (!node.hasAttribute(ATTR_NAME) || node.getAttribute(ATTR_NAME) !== "true")
+
+      // Ignore nodes that don't have the attribute or have it set to false
+      if (!node.hasAttribute(MODAL_ATTR) || node.getAttribute(MODAL_ATTR) !== "true")
         return;
+
+      // Transform the modal
       transformModal(node);
     });
   });
 }
 
-console.log(LOG_PREFIX, "Content script loaded");
 
+
+console.log(LOG_PREFIX, "Content script loaded");
 console.log(LOG_PREFIX, "Starting observer");
+
 const observer = new MutationObserver(mutationHandler);
 const observerConfig = { childList: true, subtree: true };
+
 observer.observe(document.body, observerConfig);

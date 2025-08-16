@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "test:firefox": "web-ext run --target firefox-desktop --source-dir ./src/ --start-url gmail.com/",
+    "test:chrome": "web-ext run --target chromium --source-dir ./src/ --start-url gmail.com/",
+    "package": "web-ext build --source-dir ./src/ --artifacts-dir ./dist/ --overwrite-dest"
+  }
+}
