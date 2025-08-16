@@ -8,7 +8,8 @@ const TBODY_QUERY = "[data-bg-color] > table > tbody";
 const CURRENT_LABEL_QUERY = "[role=menu] > [role=menuitem] > div > span > span";
 const FIRST_OPEN_DELAY = 50;
 
-
+// Variable
+let checkboxValue = false; // Default value for the "Auto-set text color" checkbox
 
 // ---------------------------- HELPER FUNCTIONS ---------------------------- //
 /* Determine if a color is dark or light. From: https://stackoverflow.com/a/41491220/13762264 */
@@ -113,6 +114,7 @@ function transformModal(node) {
   checkboxLabelEl.classList.add("pure-material-checkbox");
   checkboxInputEl.type = "checkbox";
   checkboxInputEl.checked = false;
+  checkboxInputEl.addEventListener("change", (e) => { checkboxValue = !!e.target.checked; });
   // TODO: Find a way to change this by language
   checkboxSpanEl.textContent = "Auto-set text color";
   checkboxLabelEl.appendChild(checkboxInputEl);
@@ -202,10 +204,12 @@ function transformModal(node) {
   tbody.appendChild(newRow1Node);
 
   // 3. Add text color checkbox & enable
+  checkboxInputEl.checked = checkboxValue;
   const newRow2Node = document.createElement("tr");
   const checkboxColNode = document.createElement("td");
   checkboxColNode.colSpan = 3;
   checkboxColNode.style = "padding-top: 24px; text-align: center;";
+  
   newRow2Node.appendChild(checkboxColNode);
   checkboxColNode.appendChild(checkboxLabelEl);
   tbody.appendChild(newRow2Node);
