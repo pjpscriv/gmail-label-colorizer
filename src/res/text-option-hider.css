@@ -1,0 +1,22 @@
+table:has(tbody.glc-pickers__text-hidden) {
+  width: 100%;
+}
+
+tbody.glc-pickers__text-hidden {
+  text-align: center;
+}
+
+/* TODO: Might not need this */
+.glc-pickers__text-hidden tr:nth-child(1) {
+  display: inline-block;
+}
+
+.glc-pickers__text-hidden tr:nth-child(3) {
+  display: inline-block;
+  width: 43%;
+}
+
+.glc-pickers__text-hidden tr td:nth-child(2),
+.glc-pickers__text-hidden tr td:nth-child(3) {
+  display: none;
+}

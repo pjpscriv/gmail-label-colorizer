@@ -6,10 +6,11 @@ const MODAL_ATTR = "data-inject-content-controller";
 const MODAL_CONTENT_QUERY = "div:not([jsaction]) > div [data-bg-color]";
 const TBODY_QUERY = "[data-bg-color] > table > tbody";
 const CURRENT_LABEL_QUERY = "[role=menu] > [role=menuitem] > div > span > span";
+const HIDE_TXT_CLASS = "glc-pickers__text-hidden";
 const FIRST_OPEN_DELAY = 50;
 
 // Variable
-let checkboxValue = false; // Default value for the "Auto-set text color" checkbox
+let checkboxValue = true; // Default value for the "Auto-set text color" checkbox
 
 // ---------------------------- HELPER FUNCTIONS ---------------------------- //
 /* Determine if a color is dark or light. From: https://stackoverflow.com/a/41491220/13762264 */
@@ -107,14 +108,24 @@ function transformModal(node) {
   const spacerCol = modalContent.querySelector(tableColSelector(2));
   const txtColorCol = modalContent.querySelector(tableColSelector(3));
 
-  // ----- "Auto-set text color" checkbox -----
+  // ----- Text color checkbox -----
   const checkboxLabelEl = document.createElement("label");
   const checkboxInputEl = document.createElement("input");
   const checkboxSpanEl = document.createElement("span");
   checkboxLabelEl.classList.add("pure-material-checkbox");
   checkboxInputEl.type = "checkbox";
   checkboxInputEl.checked = false;
-  checkboxInputEl.addEventListener("change", (e) => { checkboxValue = !!e.target.checked; });
+  checkboxInputEl.addEventListener("change", (e) => { 
+    checkboxValue = !!e.target.checked;
+    if (checkboxValue) {
+      tbody.classList.add(HIDE_TXT_CLASS);
+      const txtColorNew = colorIsDark(bgColorInput.value) ? "#ffffff" : "#000000";
+      txtColorInput.value = txtColorNew;
+      txtColorInput.dispatchEvent(new Event("input"));
+    } else {
+      tbody.classList.remove(HIDE_TXT_CLASS);
+    }
+  });
   // TODO: Find a way to change this by language
   checkboxSpanEl.textContent = "Auto-set text color";
   checkboxLabelEl.appendChild(checkboxInputEl);
@@ -196,6 +207,7 @@ function transformModal(node) {
   const colNode2 = document.createElement("td");
   const colNode3 = document.createElement("td");
   colNode1.style = "padding-top: 12px;";
+  colNode3.style = "padding-top: 12px;";
   newRow1Node.appendChild(colNode1);
   newRow1Node.appendChild(colNode2);
   newRow1Node.appendChild(colNode3);
@@ -204,7 +216,15 @@ function transformModal(node) {
   tbody.appendChild(newRow1Node);
 
   // 3. Add text color checkbox & enable
-  checkboxInputEl.checked = checkboxValue;
+  const txtColorExpected = colorIsDark(bgColorInput.value) ? "#ffffff" : "#000000";
+  const txtInitColLower = txtInitialColorHex.toLowerCase();
+  const txtIsNormalColor = txtInitColLower === txtColorExpected;
+  checkboxInputEl.checked = checkboxValue && txtIsNormalColor;
+  if (checkboxInputEl.checked) {
+    tbody.classList.add(HIDE_TXT_CLASS);
+  } else {
+    tbody.classList.remove(HIDE_TXT_CLASS);
+  }
   const newRow2Node = document.createElement("tr");
   const checkboxColNode = document.createElement("td");
   checkboxColNode.colSpan = 3;
@@ -216,6 +236,7 @@ function transformModal(node) {
 
   // 4. Fix up UI spacing
   modalContent.parentElement.style.paddingBottom = "8px";
+  tbody.setAttribute("style", "height: 112px;");
 }
 
 
