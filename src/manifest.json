@@ -18,6 +18,10 @@
          "res/text-option-hider.css"
       ]
    }],
+   "web_accessible_resources": [{
+      "resources": [ "/res/checkbox-label.json" ],
+      "matches": [ "*://mail.google.com/mail*" ]
+   }],
    "host_permissions": [
       "*://*.google.com/mail*"
    ],

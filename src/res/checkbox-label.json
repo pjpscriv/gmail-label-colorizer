@@ -1,0 +1,367 @@
+{
+  "af": {
+    "lang-en": "Afrikaans",
+    "lang": "Afrikaans",
+    "text": "Stel tekskleur outomaties in"
+  },
+  "az": {
+    "lang-en": "Azerbaijani",
+    "lang": "Azərbaycanca",
+    "text": "Mətn rəngini avtomatik təyin et"
+  },
+  "id": {
+    "lang-en": "Indonesian",
+    "lang": "Bahasa Indonesia",
+    "text": "Atur warna teks secara otomatis"
+  },
+  "ms": {
+    "lang-en": "Malay",
+    "lang": "Bahasa Melayu",
+    "text": "Tetapkan warna teks secara automatik"
+  },
+  "ca": {
+    "lang-en": "Catalan",
+    "lang": "Català",
+    "text": "Estableix automàticament el color del text"
+  },
+  "cs": {
+    "lang-en": "Czech",
+    "lang": "Čeština",
+    "text": "Automaticky nastavit barvu textu"
+  },
+  "cy": {
+    "lang-en": "Welsh",
+    "lang": "Cymraeg",
+    "text": "Gosod lliw testun yn awtomatig"
+  },
+  "da": {
+    "lang-en": "Danish",
+    "lang": "Dansk",
+    "text": "Indstil tekstfarve automatisk"
+  },
+  "de": {
+    "lang-en": "German",
+    "lang": "Deutsch",
+    "text": "Textfarbe automatisch festlegen"
+  },
+  "et": {
+    "lang-en": "Estonian",
+    "lang": "Eesti keel",
+    "text": "Määra tekstivärv automaatselt"
+  },
+  "en-GB": {
+    "lang-en": "English (UK)",
+    "lang": "English (UK)",
+    "text": "Auto-set text color"
+  },
+  "en": {
+    "lang-en": "English (US)",
+    "lang": "English (US)",
+    "text": "Auto-set text color"
+  },
+  "es": {
+    "lang-en": "Spanish",
+    "lang": "Español",
+    "text": "Auto-establecer color de texto"
+  },
+  "es-419": {
+    "lang-en": "Spanish (Latin America)",
+    "lang": "Español (Latinoamérica)",
+    "text": "Auto-establecer color de texto"
+  },
+  "eu": {
+    "lang-en": "Basque",
+    "lang": "Euskara",
+    "text": "Ezarri testuaren kolorea automatikoki"
+  },
+  "fil": {
+    "lang-en": "Filipino",
+    "lang": "Filipino",
+    "text": "Awtomatikong itakda ang kulay ng teksto"
+  },
+  "fr": {
+    "lang-en": "French",
+    "lang": "Français",
+    "text": "Auto-définir la couleur du texte"
+  },
+  "fr-CA": {
+    "lang-en": "French (Canada)",
+    "lang": "Français (Canada)",
+    "text": "Auto-définir la couleur du texte"
+  },
+  "ga": {
+    "lang-en": "Irish",
+    "lang": "Gaeilge",
+    "text": "Socraigh dath téacs go huathoibríoch"
+  },
+  "gl": {
+    "lang-en": "Galician",
+    "lang": "Galego",
+    "text": "Establecer cor do texto automaticamente"
+  },
+  "hr": {
+    "lang-en": "Croatian",
+    "lang": "Hrvatski",
+    "text": "Automatski postavi boju teksta"
+  },
+  "it": {
+    "lang-en": "Italian",
+    "lang": "Italiano",
+    "text": "Imposta automaticamente il colore del testo"
+  },
+  "zu": {
+    "lang-en": "Zulu",
+    "lang": "IsiZulu",
+    "text": "Setha umbala wombhalo ngokuzenzakalelayo"
+  },
+  "is": {
+    "lang-en": "",
+    "lang": "Íslenska",
+    "text": "Stilla sjálfkrafa textaliti"
+  },
+  "sw": {
+    "lang-en": "Swahili",
+    "lang": "Kiswahili",
+    "text": "Weka rangi ya maandishi kiotomatiki"
+  },
+  "lv": {
+    "lang-en": "Latvian",
+    "lang": "Latviešu",
+    "text": "Automātiski iestatīt teksta krāsu"
+  },
+  "lt": {
+    "lang-en": "Lithuanian",
+    "lang": "Lietuvių",
+    "text": "Automatiškai nustatyti teksto spalvą"
+  },
+  "hu": {
+    "lang-en": "Hungarian",
+    "lang": "Magyar",
+    "text": "Automatikus szövegszín beállítása"
+  },
+  "no": {
+    "lang-en": "Norwegian (Bokmål)",
+    "lang": "Norsk (Bokmål)",
+    "text": "Angi tekstfarge automatisk"
+  },
+  "nl": {
+    "lang-en": "Dutch",
+    "lang": "Nederlands",
+    "text": "Tekstkleur automatisch instellen"
+  },
+  "pl": {
+    "lang-en": "Polish",
+    "lang": "Polski",
+    "text": "Automatycznie ustaw kolor tekstu"
+  },
+  "pt-BR": {
+    "lang-en": "Portuguese (Brazil)",
+    "lang": "Português (Brasil)",
+    "text": "Definir cor do texto automaticamente"
+  },
+  "pt-PT": {
+    "lang-en": "Portuguese (Portugal)",
+    "lang": "Português (Portugal)",
+    "text": "Definir cor do texto automaticamente"
+  },
+  "ro": {
+    "lang-en": "Romanian",
+    "lang": "Română",
+    "text": "Setează automat culoarea textului"
+  },
+  "sk": {
+    "lang-en": "Slovak",
+    "lang": "Slovenčina",
+    "text": "Automaticky nastaviť farbu textu"
+  },
+  "sl": {
+    "lang-en": "Slovenian",
+    "lang": "Slovenščina",
+    "text": "Samodejno nastavi barvo besedila"
+  },
+  "fi": {
+    "lang-en": "Finnish",
+    "lang": "Suomi",
+    "text": "Aseta tekstin väri automaattisesti"
+  },
+  "sv": {
+    "lang-en": "Swedish",
+    "lang": "Svenska",
+    "text": "Ställ in textfärg automatiskt"
+  },
+  "vi": {
+    "lang-en": "Vietnamese",
+    "lang": "Tiếng Việt",
+    "text": "Tự động đặt màu văn bản"
+  },
+  "tr": {
+    "lang-en": "Turkish",
+    "lang": "Türkçe",
+    "text": "Metin rengini otomatik ayarla"
+  },
+  "el": {
+    "lang-en": "Greek",
+    "lang": "Ελληνικά",
+    "text": "Αυτόματη ρύθμιση χρώματος κειμένου"
+  },
+  "bg": {
+    "lang-en": "Bulgarian",
+    "lang": "Български",
+    "text": "Автоматично задаване на цвят на текста"
+  },
+  "mn": {
+    "lang-en": "Mongolian",
+    "lang": "Монгол",
+    "text": "Текстийн өнгийг автоматаар тохируулах"
+  },
+  "ru": {
+    "lang-en": "Russian",
+    "lang": "Русский",
+    "text": "Автоматически установить цвет текста"
+  },
+  "sr": {
+    "lang-en": "Serbian",
+    "lang": "Српски",
+    "text": "Аутоматски постави боју текста"
+  },
+  "uk": {
+    "lang-en": "Ukrainian",
+    "lang": "Українська",
+    "text": "Автоматично встановити колір тексту"
+  },
+  "hy": {
+    "lang-en": "Armenian",
+    "lang": "Հայերեն",
+    "text": "Տեքստի գույնը ավտոմատ սահմանել"
+  },
+  "iw": {
+    "lang-en": "Hebrew",
+    "lang": "עברית",
+    "text": "הגדר צבע טקסט אוטומטית"
+  },
+  "ur": {
+    "lang-en": "Urdu",
+    "lang": "اردو",
+    "text": "خودکار طور پر متن کا رنگ سیٹ کریں"
+  },
+  "ar": {
+    "lang-en": "Arabic",
+    "lang": "العربية",
+    "text": "تعيين لون النص تلقائيًا"
+  },
+  "fa": {
+    "lang-en": "Farsi/Persian",
+    "lang": "فارسی",
+    "text": "تنظیم خودکار رنگ متن"
+  },
+  "ne": {
+    "lang-en": "Nepali",
+    "lang": "नेपाली",
+    "text": "पाठको रङ स्वतः सेट गर्नुहोस्"
+  },
+  "mr": {
+    "lang-en": "Marathi",
+    "lang": "मराठी",
+    "text": "मजकूराचा रंग स्वयंचलितपणे सेट करा"
+  },
+  "hi": {
+    "lang-en": "Hindi",
+    "lang": "हिन्दी",
+    "text": "टेक्स्ट रंग स्वचालित रूप से सेट करें"
+  },
+  "bn": {
+    "lang-en": "Bengali",
+    "lang": "বাংলা",
+    "text": "টেক্সটের রঙ স্বয়ংক্রিয়ভাবে সেট করুন"
+  },
+  "gu": {
+    "lang-en": "Gujarati",
+    "lang": "ગુજરાતી",
+    "text": "ટેક્સ્ટ રંગ આપમેળે સેટ કરો"
+  },
+  "ta": {
+    "lang-en": "Tamil",
+    "lang": "தமிழ்",
+    "text": "உரையின் நிறத்தை தானாக அமைக்கவும்"
+  },
+  "te": {
+    "lang-en": "Telugu",
+    "lang": "తెలుగు",
+    "text": "పాఠ్య రంగును స్వయంచాలకంగా సెట్ చేయండి"
+  },
+  "kn": {
+    "lang-en": "Kannada",
+    "lang": "ಕನ್ನಡ",
+    "text": "ಪಠ್ಯದ ಬಣ್ಣವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಹೊಂದಿಸಿ"
+  },
+  "ml": {
+    "lang-en": "Malayalam",
+    "lang": "മലയാളം",
+    "text": "ടെക്സ്റ്റ് നിറം സ്വയമേവ ക്രമീകരിക്കുക"
+  },
+  "si": {
+    "lang-en": "Sinhala",
+    "lang": "සිංහල",
+    "text": "පෙළ වර්ණය ස්වයංක්‍රීයව සකසන්න"
+  },
+  "th": {
+    "lang-en": "Thai",
+    "lang": "ภาษาไทย",
+    "text": "ตั้งค่าสีข้อความโดยอัตโนมัติ"
+  },
+  "lo": {
+    "lang-en": "Lao",
+    "lang": "ພາສາລາວ",
+    "text": "ຕັ້ງສີຂໍ້ຄວາມອັດຕະໂນມັດ"
+  },
+  "my": {
+    "lang-en": "Burmese",
+    "lang": "မြန်မာဘာသာ (Myanmar language (Burmese))",
+    "text": "စာသားအရောင်ကိုအလိုအလျောက်သတ်မှတ်ပါ"
+  },
+  "ka": {
+    "lang-en": "Georgian",
+    "lang": "ქართული",
+    "text": "ტექსტის ფერის ავტომატური დაყენება"
+  },
+  "am": {
+    "lang-en": "Amharic",
+    "lang": "አማርኛ (Amharic)",
+    "text": "የጽሑፍ ቀለምን በራስ-ሰር አዘጋጅ"
+  },
+  "chr": {
+    "lang-en": "Cherokee",
+    "lang": "ᏣᎳᎩ (Cherokee)",
+    "text": "ᎪᎯᏳᎯᏛ ᏗᎦᏙᎤᏍᏗ ᏧᏍᏆᎦᏟᏍᏗ"
+  },
+  "km": {
+    "lang-en": "Khmer (Cambodian)",
+    "lang": "ភាសាខ្មែរ",
+    "text": "កំណត់ពណ៌អត្ថបទដោយស្វ័យប្រវត្តិ"
+  },
+  "zh-HK": {
+    "lang-en": "Chinese (Hong Kong)",
+    "lang": "中文 (香港)",
+    "text": "自動設定文字顏色"
+  },
+  "zh-TW": {
+    "lang-en": "Chinese (Taiwan)",
+    "lang": "中文 (繁體)",
+    "text": "自動設定文字顏色"
+  },
+  "zh-CN": {
+    "lang-en": "Chinese (Simplified)",
+    "lang": "中文 (简体)",
+    "text": "自动设置文字颜色"
+  },
+  "ja": {
+    "lang-en": "Japanese",
+    "lang": "日本語",
+    "text": "テキストの色を自動設定"
+  },
+  "ko": {
+    "lang-en": "Korean",
+    "lang": "한국어",
+    "text": "텍스트 색상 자동 설정"
+  }
+}
