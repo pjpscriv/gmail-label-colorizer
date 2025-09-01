@@ -72,6 +72,22 @@ function setupColorInput(parentEl, buttonEl, inputEl, callback, initColor) {
   inputEl.dispatchEvent(new Event("input"));
 }
 
+/* Get the label text based on the document language, default to English if not found */
+function getCheckBoxText(setTextCallback) {
+  const docLang = document.documentElement.lang;
+  const labelsJson = chrome.runtime.getURL('res/checkbox-label.json');
+  fetch(labelsJson)
+    .then(response => response.json())
+    .then(data => {
+      const labelText = data[docLang]['text'] || data['en']['text'];
+      setTextCallback(labelText);
+    })
+    .catch(error => {
+      console.error(LOG_PREFIX, 'Error loading checkbox labels:', error);
+      setTextCallback("Auto-set text color");
+    });
+}
+
 /* Selectors for table headers and columns */
 const tableHeadSelector = (n) => `[data-bg-color] > table > tbody > tr:nth-child(1) > td:nth-child(${n})`;
 const tableColSelector = (n) => `[data-bg-color] > table > tbody > tr:nth-child(2) > td:nth-child(${n})`;
@@ -126,8 +142,7 @@ function transformModal(node) {
       tbody.classList.remove(HIDE_TXT_CLASS);
     }
   });
-  // TODO: Find a way to change this by language
-  checkboxSpanEl.textContent = "Auto-set text color";
+  getCheckBoxText((text) => { checkboxSpanEl.textContent = text; })
   checkboxLabelEl.appendChild(checkboxInputEl);
   checkboxLabelEl.appendChild(checkboxSpanEl);
 

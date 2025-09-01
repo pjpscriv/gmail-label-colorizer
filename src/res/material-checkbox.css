@@ -149,3 +149,12 @@
     border-color: transparent;
     background-color: currentColor;
 }
+
+/* Right-to-left languages */
+.pure-material-checkbox:dir(rtl) > input {
+    right: 0;
+}
+
+.pure-material-checkbox:dir(rtl) > span::after {
+    right: 17px;
+}
