@@ -1,7 +1,7 @@
 {
    "name": "Gmail Label Colorizer",
    "description": "A simplified way to change Gmail labels to any color you want.",
-   "version": "1.2.2",
+   "version": "1.2.3",
    "manifest_version": 3,
    "author": "pjpscriv", 
    "content_scripts": [{
@@ -20,7 +20,7 @@
    }],
    "web_accessible_resources": [{
       "resources": [ "/res/checkbox-label.json" ],
-      "matches": [ "*://mail.google.com/mail*" ]
+      "matches": [ "*://mail.google.com/*" ]
    }],
    "host_permissions": [
       "*://*.google.com/mail*"
