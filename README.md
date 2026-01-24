@@ -4,16 +4,7 @@
 </h1>
 
 <p>
-  <picture>
-    <a href="https://chromewebstore.google.com/detail/gmail-label-colorizer/pjainmnpfajfihmlgdbhaigmehlmeikm">
-      <img src="https://img.shields.io/chrome-web-store/users/pjainmnpfajfihmlgdbhaigmehlmeikm?style=flat-square&logo=google-chrome&logoColor=white&label=Chrome%20users&color=%234285F4" alt="Chrome Web Store">
-    </a>
-  </picture>
-  <picture>
-    <a href="https://addons.mozilla.org/en-GB/firefox/addon/gmail-label-colorizer/">
-      <img src="https://img.shields.io/amo/users/gmail-label-colorizer?style=flat-square&logo=firefox&logoColor=white&label=Firefox%20users&color=%23FF7139" alt="Firefox add-ons">
-    </a>
-  </picture>
+  <picture><a href="https://chromewebstore.google.com/detail/gmail-label-colorizer/pjainmnpfajfihmlgdbhaigmehlmeikm"><img src="https://img.shields.io/chrome-web-store/users/pjainmnpfajfihmlgdbhaigmehlmeikm?style=flat-square&logo=google-chrome&logoColor=white&label=Chrome%20users&color=%234285F4" alt="Chrome Web Store"></a></picture> <picture><a href="https://addons.mozilla.org/en-GB/firefox/addon/gmail-label-colorizer/"><img src="https://img.shields.io/amo/users/gmail-label-colorizer?style=flat-square&logo=firefox&logoColor=white&label=Firefox%20users&color=%23FF7139" alt="Firefox add-ons"></a></picture>
 </p>
 
 A simple extension for making any-color labels in Gmail. 
