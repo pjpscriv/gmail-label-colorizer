@@ -3,3 +3,11 @@
 
 # web-ext artifacts
 */web-ext-artifacts/
+
+# Node modules
+node_modules/
+package-lock.json
+
+# Gmail API credentials (sensitive - do not commit)
+test/credentials.json
+test/token.json
